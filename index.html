@@ -97,7 +97,7 @@ $$
   For a hyper-truthful person, \(p_{\text{lie}} = 0\) so we can be 100% sure that if they say “heads came up,” heads really did come up: \(p(\text{H } | \text{ says H}) = 1\). For a compulsive liar, \(p_{\text{lie}} = 1\), and the odds are 50-50 that the coin actually came up heads when they say it did: \(p(\text{H } | \text{ says H}) = 0.5\) which is also the prior probabiity of heads coming down—just ignore anything an inveterate liar says.
 <p>
 
-<h2>The more complicated case</h2>
+<h2>A more complicated example: believing a historic event</h2>
 <p>
 The case above, lying about coin flips, is simpler than fabricating stories. But it turns out we can adapt the total probability equation of \eqref{eq:total-prob-heads} to this more general problem quite nicely. Let “H” mean “a historic event H <em>actually</em> happened”. Let “says H” mean “a historic source says a historic event H happened”. Then we want to know \(p(\text{H } | \text{ says H})\): we have read a story H about a historic person, and we want to know the probability that it actually happened.
 </p>
@@ -170,16 +170,89 @@ What matters here is not the individual numbers, or an individual point along on
   Indeed this is the case.
 </p>
 
-<h2>Epilogue</h2>
 <p>
-I just realized that something I just said—“belief in the event H should drop if there’s any likelhood of the author inventing H”—may seem tautological in prose. Please hold on to the fact that “belief in event H” means \(p(\text{H } | \text{ says H})\), our ultimate probability that, having read H in a historical source, how likely it is to be true.
+  This proved a tidy point but I now must ask myself—did I really need Bayes rule to tell me (slightly) disbelieve something the (occasional) liar wrote? Well, conditional probability is very tricky and can yield surprising results sometimes, but not here—the math agrees with common sense. But now I realize that \(p_\text{lie} = p(\text{says H } | \text{ not H})\), the likelihood of the author inventing H, and \(p(\text{H } | \text{ says H})\), whether we should believe the event or not, don’t quite match up with Ehrman’s statement of the dissimilarity criterion. Paraphrasing the quote at the top—if H is something that the author would <em>want</em> to be true, then the criterion advises more disbelief. Our probability model doesn’t consider whether H is “helpful” to the author or not.
+</p>
+
+<h2>The final example: the dissimilarity criterion</h2>
+
+<p>
+  Above, in \eqref{eq:tp3}, we expressed \(p(\text{H } | \text{ says H})\), the probability that event H is true given that a historic source reports it as truth, as a function of three variables:
+  <ul>
+    <li>\(p_\text{useful} = p(\text{says H } | \text{ H})\), the likelihood that assuming H <em>is</em> true, the author would have recorded it;</li>
+    <li>\(p_\text{plausible} = p(\text{H}) \), the likelihood that H could have happened even if we never read about H in a historical source; and</li>
+    <li>\(p_\text{lie} = p(\text{says H } | \text{ not H})\), the probability that, even though H was untrue, the author wrote it as truth anyway.</li>
+  </ul>
+  We can add the notion of whether H “helps” the author’s case or not be expanding the belief probability  \(p(\text{H } | \text{ says H})\):
+  $$
+  \begin{align}
+  p(\text{H } | \text{ says H}) =
+  \begin{cases}
+    \cfrac{
+      p_\text{useful} \cdot p_\text{plausible}
+    }{
+      p_\text{useful} \cdot p_\text{plausible} + p_\text{lie} \cdot (1 - p_\text{plausible})
+    }
+    & \text{assuming H helps}
+    \\
+    \cfrac{
+      p_\text{useful}' \cdot p_\text{plausible}
+    }{
+      p_\text{useful}' \cdot p_\text{plausible} + p_\text{lie}' \cdot (1 - p_\text{plausible})
+    }
+    & \text{assuming H doesn’t help}.
+  \end{cases}
+  \end{align}
+  $$
+  In words, the \(p(\text{H } | \text{ says H})\), the probability that H is actually true given we read it in a historic source, as given in \eqref{eq:tp3} above corresponds only to the “H helps” case. Now, that \(p(\text{H } | \text{ says H})\) depends on whether H helps the author or not. The difference between the two cases is that we replaced two probabilities with primed versions,
+  <ul>
+    <li>\(p_\text{useful}\) ⟹ \(p_\text{useful}'\) (note the prime, or apostrophe, to the upper-right of “p”), and</li>
+    <li>\(p_\text{lie}\) ⟹ \(p_\text{lie}'\).</li>
+  </ul>
+  Here are the formal definitions for these four probabilities:
+  <ul>
+    <li>\(p_\text{useful} = p(\text{says H } | \text{ H, H helps})\)</li>
+    <li>\(p_\text{useful}' = p(\text{says H } | \text{ H, H doesn’t help})\)</li>
+    <li>\(p_\text{lie} = p(\text{says H } | \text{ not H, H helps})\)</li>
+    <li>\(p_\text{lie}' = p(\text{says H } | \text{ not H, H doesn’t help})\)</li>
+  </ul>
+  Although “H helps” and its complement (its opposite) “H doesn’t help” are to the right of the bar, meaning they are taken as given in the respective cases, I want to treat them as deterministic knowns. That is, for any H, I think we can say whether H helps the author or not. You could treat this as another random variable (like we do with “says H” and “H”), then express \(p(\text{H } | \text{ says H})\) using total probability, but I beleive that won’t change the conclusion about the dissimilarity criterion.
+</p>
+
+<p>Separating \(p(\text{H } | \text{ says H})\) into two branches, with different sets of \(p_\text{useful}\)s and \(p_\text{lie}\)s, is nice because we can state two inequlities about the primed and unprimed version of these probabilities:
+  <ul>
+    <li>\(p_\text{useful} ≥ p_\text{useful}'\) and</li>
+    <li>\(p_\text{lie} ≥ p_\text{lie}'\).</li>
+  </ul>
+  In fact, if we make horrifically rough approximations, we could maybe say:
+  <ul>
+    <li>\(p_\text{useful} ≈ 1\): if H is both true and helpful to the author, it’s highly likely they’ll record it; also,</li>
+    <li>\(p_\text{lie}' ≈ 0\): if H isn’t true and it doesn’t help the author, it wouldn’t have been written.</li>
+  </ul>
+  <em>If</em> these grotesque approximations were legitimate, then observe:
+  $$
+  \begin{align}
+  p(\text{H } | \text{ says H}) ≈
+  \begin{cases}
+    \cfrac{
+      p_\text{plausible}
+    }{
+      p_\text{plausible} + p_\text{lie} \cdot (1 - p_\text{plausible})
+    } ≤ 1
+    & \text{assuming H helps}
+    \\
+    \hfil 1 \hfil
+    & \text{assuming H doesn’t help}.
+  \end{cases}
+  \end{align}
+  $$
+  Hey! This is exactly the statement of the criterion of dissimilarity: our belief in H, assuming it helps the author, is <em>less than or equal to</em> when H doesn’t help the author. The two branches of this approximation are only <em>equal</em> when \(p_\text{lie} = 0\), which we can probably all agree is never the case—historic authors are likely to lie at least occasionally.
 </p>
 
 <p>
-  Meanwhile, “the likelihood of the author invention H” is prose for \(p_\text{lie} = p(\text{says H } | \text{ not H})\). Though these two prose descriptions sound similar, the two numbers describe completely different aspects of the situation. The latter, \(p_\text{lie}\), takes as given that H is untrue and specifies the probability that a writer presents it as true—this includes ad hominem concerns (“Well <em>of course</em> this writer would say that”). The former, \(p(\text{H } | \text{ says H})\), takes as a given that H is presented as true, and asks the probability that it actually is true.
+  But we don’t want to rely on such ghastly approximations alone. We can corroborate the dissimilarity criterion by further algebraic massaging of the two branches of \(p(\text{H } | \text{ says H})\), depending on whether H helps or doesn’t help the author.
 </p>
 
-<p>So put this way, my conclusion—that the criterion of dissimilarity is valid—is a mundane. Did we really need Bayes rule to know we should (slightly) disbelieve anything the (occasional) liar tells us? Well, there <em>is</em> controversy over the criterion’s usefulness (e.g., <a href="https://en.wikipedia.org/wiki/Criterion_of_dissimilarity">wikipedia.org</a>). This controversy may come from at least two sources: first and simply, historians’ arguments about where in this three-dimensional probability cube a given event H is at; after all, if an event is highly plausible, \(p_\text{plausible} = p(\text{H}) \approx 1\), even a high \(p_\text{lie}\) shouldn’t reduce our belief in H much (though I’d be very afraid to make or hear an argument about some H’s specific \(p_\text{plausible}\)). Second and more fundamentally, historians may argue that my model, using events “H” and “says H” don’t really match what they mean by “criterion of dissimilarity”, which, recalling Ehrman’s excerpt above, suggests believing H if H is something early Christians would <em>not</em> have wanted to say.</p>
 
 <script>
 function linspace(a, b, num) {
@@ -198,14 +271,16 @@ function makeTrace(pUseful, pLie, pPlausVec) {
     name: `pLie=${pLie}`
   };
 }
+function pUsefulToData(pUseful) {
+  return pLie.map(pLie => makeTrace(pUseful, pLie, pPlaus));
+}
 
-// let data = pLie.map(pLie => makeTrace(1, pLie, pPlaus));
-const pUsefulToData = pUseful => pLie.map(pLie => makeTrace(pUseful, pLie, pPlaus));
 let layout = {
   title : `pUseful = 1`,
   xaxis : {title : 'pPlausible'},
   yaxis : {title : 'p(H | says H)'}
 };
+
 Plotly.newPlot('myDiv', pUsefulToData(1), layout);
 Plotly.newPlot('myDiv-2', pUsefulToData(.5), (layout.title = 'pUseful = 0.5') && layout);
 Plotly.newPlot('myDiv-3', pUsefulToData(.1), (layout.title = 'pUseful = 0.1') && layout);
