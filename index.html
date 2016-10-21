@@ -221,15 +221,15 @@ What matters here is not the individual numbers, or an individual point along on
 
 <p>Separating \(p(\text{H } | \text{ says H})\) into two branches, with different sets of \(p_\text{useful}\)s and \(p_\text{lie}\)s, is nice because we can state two inequlities about the primed and unprimed version of these probabilities:
   <ul>
-    <li>\(p_\text{useful} ≥ p_\text{useful}'\) and</li>
-    <li>\(p_\text{lie} ≥ p_\text{lie}'\).</li>
+    <li>\(p_\text{useful} ≥ p_\text{useful}'\), implying that, for an event H that actually happened, it’s more likely to be recorded if it helps the author than not; and</li>
+    <li>\(p_\text{lie} ≥ p_\text{lie}'\), since a fabrication that’s helpful is more likely to be written down than a fabrication that’s not.</li>
   </ul>
   In fact, if we make horrifically rough approximations, we could maybe say:
   <ul>
     <li>\(p_\text{useful} ≈ 1\): if H is both true and helpful to the author, it’s highly likely they’ll record it; also,</li>
     <li>\(p_\text{lie}' ≈ 0\): if H isn’t true and it doesn’t help the author, it wouldn’t have been written.</li>
   </ul>
-  <em>If</em> these grotesque approximations were legitimate, then observe:
+  <em>If</em> these grotesque approximations were legitimate, then observe how \eqref{eq:2branch} simplifies:
   $$
   \begin{align}
   p(\text{H } | \text{ says H}) ≈
@@ -244,14 +244,118 @@ What matters here is not the individual numbers, or an individual point along on
     \hfil 1 \hfil
     & \text{assuming H doesn’t help}.
   \end{cases}
+  \label{eq:2branch}
   \end{align}
   $$
   Hey! This is exactly the statement of the criterion of dissimilarity: our belief in H, assuming it helps the author, is <em>less than or equal to</em> when H doesn’t help the author. The two branches of this approximation are only <em>equal</em> when \(p_\text{lie} = 0\), which we can probably all agree is never the case—historic authors are likely to lie at least occasionally.
 </p>
 
 <p>
-  But we don’t want to rely on such ghastly approximations alone. We can corroborate the dissimilarity criterion by further algebraic massaging of the two branches of \(p(\text{H } | \text{ says H})\), depending on whether H helps or doesn’t help the author.
+  But we don’t want to rely on such ghastly approximations. We can corroborate the dissimilarity criterion without them by algebraic massaging of both branches of \(p(\text{H } | \text{ says H})\), depending on whether H helps the author or not. We can do this by adapting the two reasonable inequalities mentioned above:
+  <ul>
+    <li>\(p_\text{useful} ≥ p_\text{useful}'\) ⟹ \(\cfrac{p_\text{useful}}{p_\text{useful}'} = n_\text{useful} ≥ 1\), and</li>
+    <li>\(p_\text{lie} ≥ p_\text{lie}'\) ⟹ \( \cfrac{p_\text{lie}}{p_\text{lie}'} = n_\text{lie} ≥ 1\).</li>
+  </ul>
+  With these two variables, we can look at the ratio between the two branches of \eqref{eq:2branch}, because this ration will be less than 1, then the probability of believing a helpful H is <em>less than</em> an unhelpful H. I hope I get this algebra right:
+  $$
+  \begin{align}
+  \frac{
+    p(\text{H } | \text{ says H, H is helpful})}{
+    p(\text{H } | \text{ says H, H unhelpful})
+  }
+  &=
+  \frac{p_\text{useful}}{p_\text{useful}'}
+  \cdot
+  \frac{
+    p_\text{useful}' \cdot p_\text{plausible} + p_\text{lie}' \cdot (1 - p_\text{plausible})
+  }{
+    p_\text{useful} \cdot p_\text{plausible} + p_\text{lie} \cdot (1 - p_\text{plausible})
+  }
+  \\
+  &= n_\text{useful} \cdot
+  \frac{
+    \frac{p_\text{useful}}{n_\text{useful}} \cdot p_\text{plausible} + \frac{p_\text{lie}}{n_\text{lie}} \cdot (1 - p_\text{plausible})
+  }{
+    p_\text{useful} \cdot p_\text{plausible} + p_\text{lie} \cdot (1 - p_\text{plausible})
+  }
+  \\
+  &=
+  \frac{
+    a + b \cdot \left( \cfrac{n_\text{useful}}{n_\text{lie}} \right)
+  }{
+    a + b
+  } = n
+  \end{align}
+  $$
+  In the last step, I replaced bigger expressions with simple variables, for aesthetic purposes—it helps us see what comes next:
+  <ul>
+    <li>\(a = p_\text{useful} \cdot p_\text{plausible}\), and</li>
+    <li>\(b = p_\text{lie} \cdot (1 - p_\text{plausible})\), and</li>
+    <li>the ratio of the two branchs’ probabilities is called \(n\).</li>
+  </ul>
+  Then it’s algebraically apparent that,
+  <ul>
+    <li>first,
+      <ul>
+        <li>
+          if \(n_\text{useful} < n_\text{lie}\),
+        </li>
+        <li>
+          then \(n < 1\),
+        </li>
+        <li>
+          so \(p(\text{H } | \text{ says H, H is helpful}) < p(\text{H } | \text{ says H, H unhelpful})\),
+        </li>
+        <li>
+          which is equivalent to the dissimilarity criterion. 😄!
+        </li>
+      </ul>
+    </li>
+    <li>But,
+      <ul>
+        <li>
+          if \(n_\text{useful} ≥ n_\text{lie}\),
+        </li>
+        <li>
+          then the dissimilarity criterion is contradicted.
+        </li>
+      </ul>
+    </li>
+  </ul>
+  We’ve just obtained a very simple requirement for the dissimilarity criterion to hold: \(n_\text{useful} < n_\text{lie}\). What does this mean? Just a little more algebraic manipulation will show us the answer, which I will immediately render into prose:
+  $$
+  \begin{align}
+  \Big( n_\text{useful} &< n_\text{lie} \Big)
+  \\
+  \Bigg(
+  \frac{
+    p_\text{useful}
+  }{
+    p_\text{useful}'
+  }
+  &<
+  \frac{
+    p_\text{lie}
+  }{
+    p_\text{lie}'
+  }
+  \Bigg)
+  \\
+  \frac{
+    p(\text{says H } | \text{ H, H helps})
+  }{
+    p(\text{says H } | \text{ H, H doesn’t help})
+  }
+  &<
+  \frac{
+    p(\text{says H } | \text{ not H, H helps})
+  }{
+    p(\text{says H } | \text{ not H, H doesn’t help})
+  }
+  \end{align}
+  $$
 </p>
+
 
 
 <script>
