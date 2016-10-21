@@ -1,0 +1,212 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<title>Dissimilarity</title>
+
+<h2>Introduction</h2>
+
+<p>I wasn’t familiar with <em>the criterion of dissimilarity</em> when I read about it in Bart Ehrman’s <cite>Did Jesus Exist?</cite> (2013; the answer to the question is “yes” in case you were wondering <a href="http://www.npr.org/2012/04/01/149462376/did-jesus-exist-a-historian-makes-his-case">[npr.org]</a>):
+  <blockquote>
+    when we encounter a story about Jesus that does not support an early Christian agenda or that seems to run contrary to what the early Christians would have wanted to say about Jesus, … the story is more likely to be historically reliable since it is less likely to have been made up. (Chapter 8)
+  </blockquote>
+</p>
+
+<p>The technique sounds like a legitimized use of ad hominem attacks. An ad hominem attack is the (usually fallacious) rhetorical–logical–cognitive shortcut where, instead of evaluating someone’s statement for correctness, you assume it’s wrong if you dislike the person, or right if you like them. I always think of the following example: “Elected officials are not paid enough,” says your Senator or Member of Parliment or Diet member. You reply, “<em>Of course</em> you’d say that—you’re an elected official and want a higher salary.” The statement may be true, but instead of evaluating it properly, you conclude it’s false because of who said it.</p>
+
+<p>(Ad hominem attacks are found in lists of cognitive fallacies, but the technique is often a very good heuristic. As Nassim Taleb says, “Don’t ask a barber if you need a haircut.”)</p>
+
+<p>The criterion is used by historians when there are unreliable sources for an event. When an ancient writer makes a claim that they would want to be true, i.e., that serves their agenda, then we ought to be less inclined to believe it to be true.</p>
+
+<p>This is apparently a controversial tool among historians. To me, someone who is not a professional historian, but who has taken a few statistics courses in grad school, this seemed like something to which we could apply conditional probability. I know that conditional probability often gives very counterintuitive results (the classic case is the confusion among doctors about medical tests due to the interplay between the probability of false alarm versus probability of missed detection), so perhaps there’s a numeric angle to the controversy.</p>
+
+<h2>A simplified example: telling the truth</h2>
+
+<p>I tried writing out Bayes rule for events like “useful if true” and “made up”, but it was difficult for me to be sure these events were really random variables. It’s easy to mis-apply conditional probability and Bayes rule for real world problems (i.e., outside statistics classes) because probability is so subtle and difficult to get right.</p>
+
+<p>So here’s a simplified example that I came up with to understand the problem a little better: imagine a psychological experiment on lying.</p>
+
+<p>A participant is asked to predict whether a coin will land heads or tails, and then asked for flip it and tell us whether it came heads or tails. The participant is maybe rewarded for correct “predictions” but we don’t ask to see the coin, so the participant can lie to us. Unknown to them, though, we have a secret camera recording the actual results, so we can ask the question: assuming the participant predicted heads before flipping the coin, what’s the probability that it actually landed heads if they said “heads”? What is
+$$
+p(\text{heads } | \text{ says heads}) ?
+$$
+(In this notation, \(p(A | B)\) is read “probability of event A given we know event B happened”.) This is straighforward Bayes rule, which says
+  $$
+  \begin{equation}
+  p(A | B) = \frac{p(B | A) \cdot p(A)}{p(B)}.
+  \label{eq:bayes}
+  \end{equation}
+  $$
+  I know some people’s eyes glaze over when they see a string of mathematical gibberish like this—mine certainly do, and my eyes skip it to see if the prose discussion below the equation will let me get away with not trying to parse and understand the equation. I will try very hard to give meaningful prose explanations of each mathematical equation that give you the courage to return the math and slay it. In this case, however, it may be easier to plug in actual events instead of \(A\) and \(B\) before explaining anything:
+  $$
+  \begin{align}
+  p(\text{H } | \text{says H}) &= \frac{
+    p(\text{says H } | \text{ H})
+    \cdot
+    p(\text{H})
+  }{p(\text{says H})}
+  \label{eq:bayes-heads}
+  \\
+  &= \frac{
+    p(\text{says H } | \text{ H})
+    \cdot
+    p(\text{H})
+  }{
+    p(\text{says H } | \text{ H}) \cdot p(\text{H})
+    +
+    p(\text{says H } | \text{ T}) \cdot p(\text{T})
+  }.
+  \label{eq:total-prob-heads}
+  \end{align}
+  $$
+  Hmm, that might be even more impenetrable than with abstract \(A\)s and \(B\)s, but it’ll be easier to explain. Things to note:
+  <ol type="A">
+    <li>We use \(H\) to mean “heads” or “heads actually landed”.</li>
+    <li>In \eqref{eq:bayes-heads}, we’ve just plugged in \((A = \text{H})\) and \((B = \text{says H})\) into the original Bayes rule equation \eqref{eq:bayes}.</li>
+    <li>\eqref{eq:total-prob-heads} has the same numerator as \eqref{eq:bayes-heads}. <em>But</em> the denominator has expanded via the <a href="https://en.wikipedia.org/wiki/Law_of_total_probability"</a>law of total probability</a>. I did this because, eventually, we’ll want to replace these probabilities with numbers, and I have no idea what the raw probability is that someone will say “heads” assuming nothing other than that they’ve predicted heads. But using total probability, we can express \(p(\text{says H})\) in terms of conditional probabilities and coin-flip probabilities—I can actually assign reasonable numbers to all the probabilities in \eqref{eq:total-prob-heads}, but couldn’t in \eqref{eq:bayes-heads}.
+    </li>
+  </ol>
+</p>
+
+<p>Assuming \eqref{eq:total-prob-heads} is legitimate, we can say the following:
+  <ol type="a">
+    <li>\(p(\text{H}) = p(\text{T}) = 0.5\), that is, the probability of heads or tails is 0.5 for this fair coin.</li>
+    <li>\(p(\text{says H } | \text{ H}) = 1\). This means that if heads actually came up, the participant is guaranteed to say “heads came up”. (Recall that we’re assuming they predicted “heads will come up” before flipping the coin.) The participant won’t lie if it’ll harm them.
+    </li>
+    <li>The last probability, \(p(\text{says H } | \text{ T}) = p_{\text{lie}}\), is the probability of a lie. This means the participant predicted heads, flipped tails, but lied and said “heads”. \(p_{\text{lie}}\) we’ll leave as a varible. \(p_{\text{lie}} = 0\) means this participant is hyper-truthful. \(p_{\text{lie}} = 1\) when a participant is a compulsive liar.
+  </ol>
+</p>
+
+<p>
+  With these algebraic machinations, we can answer the question at the beginning of this section. The probability that a coin actually landed heads given the participant said heads (recall we assume they predicted heads beforehand) is
+  $$
+  \begin{equation}
+  p(\text{H } | \text{ says H}) = \frac{0.5}{0.5 + 0.5 p_{\text{lie}}} = \frac{1}{1 + p_{\text{lie}}}.
+  \end{equation}
+  $$
+  For a hyper-truthful person, \(p_{\text{lie}} = 0\) so we can be 100% sure that if they say “heads came up,” heads really did come up: \(p(\text{H } | \text{ says H}) = 1\). For a compulsive liar, \(p_{\text{lie}} = 1\), and the odds are 50-50 that the coin actually came up heads when they say it did: \(p(\text{H } | \text{ says H}) = 0.5\) which is also the prior probabiity of heads coming down—just ignore anything an inveterate liar says.
+<p>
+
+<h2>The more complicated case</h2>
+<p>
+The case above, lying about coin flips, is simpler than fabricating stories. But it turns out we can adapt the total probability equation of \eqref{eq:total-prob-heads} to this more general problem quite nicely. Let “H” mean “a historic event H <em>actually</em> happened”. Let “says H” mean “a historic source says a historic event H happened”. Then we want to know \(p(\text{H } | \text{ says H})\): we have read a story H about a historic person, and we want to know the probability that it actually happened.
+</p>
+
+<p>Rewrite Bayes rule with total probability of \eqref{eq:total-prob-heads}:
+  $$
+  \begin{equation}
+  p(\text{H } | \text{ says H}) = \frac{
+    p(\text{says H } | \text{ H})
+    \cdot
+    p(\text{H})
+  }{
+    p(\text{says H } | \text{ H}) \cdot p(\text{H})
+    +
+    p(\text{says H } | \text{ not H}) \cdot p(\text{not H})
+  }.
+  \label{eq:tp2}
+  \end{equation}
+  $$
+  All that’s changed from \eqref{eq:total-prob-heads} to \eqref{eq:tp2} is that insted of “T” we have “not H”, which means “historic event H didn’t really happen”, i.e., it was fabricated if anyone says it did happen. All four probabilities here are free in this more general case, since we have historic events instead of coin flips:
+  <ol type="a">
+    <li>\(p(\text{says H } | \text{ H}) = p_\text{useful}\) is the probability that, given an event H actually happened, that H would be recorded. I call this the “probability of usefulness”—if H is the event that Christ ate figs for lunch on Passover, 32 C.E., it’s unlikely to be recorded by any contemporary source: \(p_\text{useful}\) would be close to 0 for this H. However, \(p_\text{useful}\) may be closer to 1 for the event H that Christ entered Jerusalem days before the crucifixion. It depends on what H is.
+    </li>
+    <li>\(p(\text{H}) = p_\text{plausible}\) is the probability that event H truly happened, independent of whether it was recorded or who recorded it. By the complement rule of probability, \(p(\text{not H}) = 1- p_\text{plausible}\). This is a little abstract, and as we’ll see, the number assigned to this probability doesn’t really affect our conclusion about the criterion of dissimilarity, but I take this probability to mean how plausible the event H is on general principles, based on what we know about the time period, about science, etc.</li>
+    <li>Finally, \(p(\text{says H } | \text{ not H}) = p_\text{lie}\), is the probability that the event H was fabricated. H here might be Luke’s claim that “Christ was born in Bethlehem”. Assuming we know that Christ was born in Nazareth (“a tiny hamlet riddled with poverty” via Ehrman) independent of Luke, what is the probability that Luke would say otherwise? Possibly non-zero if he wanted his narrative to fit Micah’s earlier predictions regarding the birthplace of the savior. It is in this probability that we encode ad hominem beliefs about what Luke <em>would</em> say. <strong>Note well</strong> that \(p(\text{says H } | \text{ not H})\) is <em>not</em> the complement of \(p(\text{says H } | \text{ H})\). These two numbers are totally independent and capture separate aspects of the problem—the latter speaks to how likely a true event is written down, the former how likely a fabrication is made.
+  </ol>
+  These three probabilities specify three different aspects of the underlying model. If we can come up with numbers for all three, we can answer the burning question: what are the odds that a story about Christ is true?
+  $$
+  \begin{equation}
+  p(\text{H } | \text{ says H}) = \frac{
+    p_\text{useful} \cdot p_\text{plausible}
+  }{
+    p_\text{useful} \cdot p_\text{plausible} + p_\text{lie} \cdot (1 - p_\text{plausible})
+  }.
+  \label{eq:tp3}
+  \end{equation}
+  $$
+</p>
+
+<p>Said this way it’s not clear how valid the dissimilarity criterion is. But after looking at the behavior of \eqref{eq:tp3} for various combinations of
+  <ul>
+    <li>\(p_\text{useful} = p(\text{says H } | \text{ H})\),</li>
+    <li>\(p_\text{plausible} = p(\text{H}) \), and</li>
+    <li>\(p_\text{lie} = p(\text{says H } | \text{ not H})\),</li>
+  </ul>
+  I convinced myself of its validity. We can’t visualize this function of three dimensions easily, but here’s a sequence of charts that I think will convince you.
+</p>
+
+<p>
+Let \(p_\text{useful} = p(\text{says H } | \text{ H}) = 1\), that is, let’s assume H is the kind of story that, assuming it really happened, would definitely be worth recording accurately. Let’s see the behavior of the ultimate probability \(p(\text{H } | \text{ says H})\), of whether to believe a historical source saying H, as we vary \(p_\text{lie}\) and \(p_\text{plausible}\):
+
+<div id="myDiv" style="width: 90%; height: 400px;"></div>
+
+What matters here is not the individual numbers, or an individual point along one of these lines, but rather the observation that, for <em>all</em> plausibility probabilities, the ultimate probability of whether to believe H or not goes down as the probability of fabrication, \(p_\text{lie}\) goes up. The highest and lowest lines, of \(p_\text{lie} = 0\) (incorruptible authors) and \(p_\text{lie} = 1\) (fiction writers) are meant only to bound the space of allowable results. If there’s even a suspicion that \(p_\text{lie} = p(\text{says H } | \text{ not H}) < 1\), that a historical author may have written down something, H, that didn’t happen, like Luke regarding the birthplace of Christ, that will decrease our belief in H. If H is already implausible, i.e., \(p_\text{plausible} \ll 1 \), our belief drops a ton. If H is neither plausible nor implausible, \(p_\text{plausible} \approx 0.5\), our belief drops a middling amount. If H is quite plausible, \(p_\text{plausible} ≲ 1\), our belief drops a miniscule amount. The point is that it drops—the historians can argue about how much it drops (i.e., what \(p_\text{plausible}\) really is).
+</p>
+
+<p>(A technical note not of interest to the general reader: note that for \(p_\text{lie} = p(\text{says H } | \text{ not H}) = 1\), implying the historical source is a complete fiction, our ultimate probability of believing H \(p(\text{H } | \text{ says H}) = p_\text{plausible}\). Our belief in H is unchanged by knowing that an inveterate liar said H is true. Again, this is a technical sanity check—I doubt any historical writer lies at this point.)</p>
+
+<p>That was for \(p_\text{useful} = p(\text{says H } | \text{ H}) = 1\). What about less useful stories H, which assuming are true were less likely to be recorded?
+
+  <div id="myDiv-2" style="width: 90%; height: 400px;"></div>
+
+  Above, I’ve shown the ultimate probability of believing H when \(p_\text{useful} = p(\text{says H } | \text{ H}) = 0.5\), meaning H is mundane enough that a contemporary may or may not record it. This lower usefulness probability depresses all the curves (except for the hyper-truthful assumption of \(p_\text{lie} = 0\)), but the basic trend from before holds here: if there is any possibility that a historic source might fabricate an event H, our belief in that event should decrease.</p>
+
+<p>(Another technical note of no interest to the general reader: as \(p_\text{useful}\) drops, the lower bound on our ultimate probability \(p(\text{H } | \text{ says H}) < p_\text{plausible}\). Even if event H is 50% plausible, i.e., \(p(H) = 0.5\), and reported by a compulsive liar (\(p_\text{lie} = p(\text{says H } | \text{ not H}) = 1\)), our belief in H’s accuracy is less than 50%, because it was not very likely to have been recorded in the first place.)</p>
+
+<p>
+  As an extreme case, consider \(p_\text{useful} = p(\text{says H } | \text{ H}) = 0.1\), i.e., the situation where Christ ate figs for lunch on Passover 32 C.E.—intended to be a very mundane fact that a contemporary is very unlikely to record (sorry if that example turns out to be actually highly useful). Let’s just confirm that the same principle holds: that our belief in the event H should drop if there’s any likelhood of the author inventing H.
+  <div id="myDiv-3" style="width: 90%; height: 400px;"></div>
+  Indeed this is the case.
+</p>
+
+<h2>Epilogue</h2>
+<p>
+I just realized that something I just said—“belief in the event H should drop if there’s any likelhood of the author inventing H”—may seem tautological in prose. Please hold on to the fact that “belief in event H” means \(p(\text{H } | \text{ says H})\), our ultimate probability that, having read H in a historical source, how likely it is to be true.
+</p>
+
+<p>
+  Meanwhile, “the likelihood of the author invention H” is prose for \(p_\text{lie} = p(\text{says H } | \text{ not H})\). Though these two prose descriptions sound similar, the two numbers describe completely different aspects of the situation. The latter, \(p_\text{lie}\), takes as given that H is untrue and specifies the probability that a writer presents it as true—this includes ad hominem concerns (“Well <em>of course</em> this writer would say that”). The former, \(p(\text{H } | \text{ says H})\), takes as a given that H is presented as true, and asks the probability that it actually is true.
+</p>
+
+<p>So put this way, my conclusion—that the criterion of dissimilarity is valid—is a mundane. Did we really need Bayes rule to know we should (slightly) disbelieve anything the (occasional) liar tells us? Well, there <em>is</em> controversy over the criterion’s usefulness (e.g., <a href="https://en.wikipedia.org/wiki/Criterion_of_dissimilarity">wikipedia.org</a>). This controversy may come from at least two sources: first and simply, historians’ arguments about where in this three-dimensional probability cube a given event H is at; after all, if an event is highly plausible, \(p_\text{plausible} = p(\text{H}) \approx 1\), even a high \(p_\text{lie}\) shouldn’t reduce our belief in H much (though I’d be very afraid to make or hear an argument about some H’s specific \(p_\text{plausible}\)). Second and more fundamentally, historians may argue that my model, using events “H” and “says H” don’t really match what they mean by “criterion of dissimilarity”, which, recalling Ehrman’s excerpt above, suggests believing H if H is something early Christians would <em>not</em> have wanted to say.</p>
+
+<script>
+function linspace(a, b, num) {
+  const δ = (b - a) / (num - 1);
+  return Array.from(Array(num), (_, i) => a + δ * i);
+}
+
+pLie = [0, .1, .25, .5, 1];
+pPlaus = linspace(0, 1, 51);
+
+function makeTrace(pUseful, pLie, pPlausVec) {
+  return {
+    x : pPlausVec.slice(),
+    y : pPlausVec.map(pp => (pUseful * pp) / (pUseful * pp + pLie * (1 - pp))),
+    type: 'scatter',
+    name: `pLie=${pLie}`
+  };
+}
+
+// let data = pLie.map(pLie => makeTrace(1, pLie, pPlaus));
+const pUsefulToData = pUseful => pLie.map(pLie => makeTrace(pUseful, pLie, pPlaus));
+let layout = {
+  title : `pUseful = 1`,
+  xaxis : {title : 'pPlausible'},
+  yaxis : {title : 'p(H | says H)'}
+};
+Plotly.newPlot('myDiv', pUsefulToData(1), layout);
+Plotly.newPlot('myDiv-2', pUsefulToData(.5), (layout.title = 'pUseful = 0.5') && layout);
+Plotly.newPlot('myDiv-3', pUsefulToData(.1), (layout.title = 'pUseful = 0.1') && layout);
+</script>
