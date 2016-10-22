@@ -22,7 +22,7 @@ MathJax.Hub.Config({
   </blockquote>
 </p>
 
-<p>The technique sounds like a legitimized use of ad hominem attacks. An ad hominem attack is the (usually fallacious) rhetorical–logical–cognitive shortcut where, instead of evaluating someone’s statement for correctness, you assume it’s wrong if you dislike the person, or right if you like them. I always think of the following example: “Elected officials are not paid enough,” says your Senator or Member of Parliment or Diet member. You reply, “<em>Of course</em> you’d say that—you’re an elected official and want a higher salary.” The statement may be true, but instead of evaluating it properly, you conclude it’s false because of who said it.</p>
+<p>The technique sounds like a legitimized use of ad hominem attacks. An ad hominem attack is the (usually fallacious) rhetorical–logical–cognitive shortcut where, instead of evaluating someone’s statement for correctness, you assume it’s wrong if you dislike the person, or right if you like them. I always think of the following example: “Elected officials are not paid enough,” says your Senator or Member of Parliament or Diet member. You reply, “<em>Of course</em> you’d say that—you’re an elected official and want a higher salary.” The statement may be true, but instead of evaluating it properly, you conclude it’s false because of who said it.</p>
 
 <p>(Ad hominem attacks are found in lists of cognitive fallacies, but the technique is often a very good heuristic. As Nassim Taleb says, “Don’t ask a barber if you need a haircut.”)</p>
 
@@ -32,7 +32,7 @@ MathJax.Hub.Config({
 
 <h2>A simplified example: telling the truth</h2>
 
-<p>I tried writing out Bayes rule for events like “useful if true” and “made up”, but it was difficult for me to be sure these events were really random variables. It’s easy to mis-apply conditional probability and Bayes rule for real world problems (i.e., outside statistics classes) because probability is so subtle and difficult to get right.</p>
+<p>I tried writing out Bayes rule for events like “useful if true” and “made up”, but it was difficult for me to be sure these events were really random variables. It’s easy to misapply conditional probability and Bayes rule for real world problems (i.e., outside statistics classes) because probability is so subtle and difficult to get right.</p>
 
 <p>So here’s a simplified example that I came up with to understand the problem a little better: imagine a psychological experiment on lying.</p>
 
@@ -40,7 +40,7 @@ MathJax.Hub.Config({
 $$
 p(\text{heads } | \text{ says heads}) ?
 $$
-(In this notation, \(p(A | B)\) is read “probability of event A given we know event B happened”.) This is straighforward Bayes rule, which says
+(In this notation, \(p(A | B)\) is read “probability of event A given we know event B happened”.) This is straightforward Bayes rule, which says
   $$
   \begin{equation}
   p(A | B) = \frac{p(B | A) \cdot p(A)}{p(B)}.
@@ -83,7 +83,7 @@ $$
     <li>\(p(\text{H}) = p(\text{T}) = 0.5\), that is, the probability of heads or tails is 0.5 for this fair coin.</li>
     <li>\(p(\text{says H } | \text{ H}) = 1\). This means that if heads actually came up, the participant is guaranteed to say “heads came up”. (Recall that we’re assuming they predicted “heads will come up” before flipping the coin.) The participant won’t lie if it’ll harm them.
     </li>
-    <li>The last probability, \(p(\text{says H } | \text{ T}) = p_{\text{lie}}\), is the probability of a lie. This means the participant predicted heads, flipped tails, but lied and said “heads”. \(p_{\text{lie}}\) we’ll leave as a varible. \(p_{\text{lie}} = 0\) means this participant is hyper-truthful. \(p_{\text{lie}} = 1\) when a participant is a compulsive liar.
+    <li>The last probability, \(p(\text{says H } | \text{ T}) = p_{\text{lie}}\), is the probability of a lie. This means the participant predicted heads, flipped tails, but lied and said “heads”. \(p_{\text{lie}}\) we’ll leave as a variable. \(p_{\text{lie}} = 0\) means this participant is hyper-truthful. \(p_{\text{lie}} = 1\) when a participant is a compulsive liar.
   </ol>
 </p>
 
@@ -94,7 +94,7 @@ $$
   p(\text{H } | \text{ says H}) = \frac{0.5}{0.5 + 0.5 p_{\text{lie}}} = \frac{1}{1 + p_{\text{lie}}}.
   \end{equation}
   $$
-  For a hyper-truthful person, \(p_{\text{lie}} = 0\) so we can be 100% sure that if they say “heads came up,” heads really did come up: \(p(\text{H } | \text{ says H}) = 1\). For a compulsive liar, \(p_{\text{lie}} = 1\), and the odds are 50-50 that the coin actually came up heads when they say it did: \(p(\text{H } | \text{ says H}) = 0.5\) which is also the prior probabiity of heads coming down—just ignore anything an inveterate liar says.
+  For a hyper-truthful person, \(p_{\text{lie}} = 0\) so we can be 100% sure that if they say “heads came up,” heads really did come up: \(p(\text{H } | \text{ says H}) = 1\). For a compulsive liar, \(p_{\text{lie}} = 1\), and the odds are 50-50 that the coin actually came up heads when they say it did: \(p(\text{H } | \text{ says H}) = 0.5\) which is also the prior probability of heads coming down—just ignore anything an inveterate liar says.
 <p>
 
 <h2>A more complicated example: believing a historic event</h2>
@@ -165,7 +165,7 @@ What matters here is not the individual numbers, or an individual point along on
 <p>(Another technical note of no interest to the general reader: as \(p_\text{useful}\) drops, the lower bound on our ultimate probability \(p(\text{H } | \text{ says H}) < p_\text{plausible}\). Even if event H is 50% plausible, i.e., \(p(H) = 0.5\), and reported by a compulsive liar (\(p_\text{lie} = p(\text{says H } | \text{ not H}) = 1\)), our belief in H’s accuracy is less than 50%, because it was not very likely to have been recorded in the first place.)</p>
 
 <p>
-  As an extreme case, consider \(p_\text{useful} = p(\text{says H } | \text{ H}) = 0.1\), i.e., the situation where Christ ate figs for lunch on Passover 32 C.E.—intended to be a very mundane fact that a contemporary is very unlikely to record (sorry if that example turns out to be actually highly useful). Let’s just confirm that the same principle holds: that our belief in the event H should drop if there’s any likelhood of the author inventing H.
+  As an extreme case, consider \(p_\text{useful} = p(\text{says H } | \text{ H}) = 0.1\), i.e., the situation where Christ ate figs for lunch on Passover 32 C.E.—intended to be a very mundane fact that a contemporary is very unlikely to record (sorry if that example turns out to be actually highly useful). Let’s just confirm that the same principle holds: that our belief in the event H should drop if there’s any likelihood of the author inventing H.
   <div id="myDiv-3" style="width: 90%; height: 400px;"></div>
   Indeed this is the case.
 </p>
@@ -216,10 +216,10 @@ What matters here is not the individual numbers, or an individual point along on
     <li>\(p_\text{lie} = p(\text{says H } | \text{ not H, H helps})\)</li>
     <li>\(p_\text{lie}' = p(\text{says H } | \text{ not H, H doesn’t help})\)</li>
   </ul>
-  Although “H helps” and its complement (its opposite) “H doesn’t help” are to the right of the bar, meaning they are taken as given in the respective cases, I want to treat them as deterministic knowns. That is, for any H, I think we can say whether H helps the author or not. You could treat this as another random variable (like we do with “says H” and “H”), then express \(p(\text{H } | \text{ says H})\) using total probability, but I beleive that won’t change the conclusion about the dissimilarity criterion.
+  Although “H helps” and its complement (its opposite) “H doesn’t help” are to the right of the bar, meaning they are taken as given in the respective cases, I want to treat them as deterministic knowns. That is, for any H, I think we can say whether H helps the author or not. You could treat this as another random variable (like we do with “says H” and “H”), then express \(p(\text{H } | \text{ says H})\) using total probability, but I believe that won’t change the conclusion about the dissimilarity criterion.
 </p>
 
-<p>Separating \(p(\text{H } | \text{ says H})\) into two branches, with different sets of \(p_\text{useful}\)s and \(p_\text{lie}\)s, is nice because we can state two inequlities about the primed and unprimed version of these probabilities:
+<p>Separating \(p(\text{H } | \text{ says H})\) into two branches, with different sets of \(p_\text{useful}\)s and \(p_\text{lie}\)s, is nice because we can state two inequalities about the primed and unprimed version of these probabilities:
   <ul>
     <li>\(p_\text{useful} ≥ p_\text{useful}'\), implying that, for an event H that actually happened, it’s more likely to be recorded if it helps the author than not; and</li>
     <li>\(p_\text{lie} ≥ p_\text{lie}'\), since a fabrication that’s helpful is more likely to be written down than a fabrication that’s not.</li>
@@ -291,7 +291,7 @@ What matters here is not the individual numbers, or an individual point along on
   <ul>
     <li>\(a = p_\text{useful} \cdot p_\text{plausible}\), and</li>
     <li>\(b = p_\text{lie} \cdot (1 - p_\text{plausible})\), and</li>
-    <li>the ratio of the two branchs’ probabilities is called \(n\).</li>
+    <li>the ratio of the two branches’ probabilities is called \(n\).</li>
   </ul>
   Then it’s algebraically apparent that,
   <ul>
@@ -417,6 +417,10 @@ What matters here is not the individual numbers, or an individual point along on
 
 <p>
   (For fun, an implementation of Monty Hall’s game is included in the source of this webpage: if a thousand players use the “switch” strategy, <span id="monty-hall-switchers">66.1</span>% of them win the car 🚗. If ten thousand players use the “stay” strategy, only <span id="monty-hall-stayers">34.1</span>% win the car 🚗. <button onclick="monteCarlo();">Click to recalculate.</button>)
+</p>
+
+<p>
+  I say all this because, for me, the criterion of dissimilarity is an interesting idea from “the wild” to which I could try to apply some of my book learning. Book learning is usually not readily applied to problems from the wild, and in my case, it’s terrifically hard. Add the hyperfine subtleties of probability and I could very well have made mistakes above. If you’re a historian, please don’t use this for your Real Work, at least until you talk to someone you trust.
 </p>
 
 <script src="dissim.compat.js" async></script>
