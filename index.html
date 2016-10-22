@@ -322,7 +322,10 @@ What matters here is not the individual numbers, or an individual point along on
       </ul>
     </li>
   </ul>
-  We’ve just obtained a very simple requirement for the dissimilarity criterion to hold: \(n_\text{useful} < n_\text{lie}\). What does this mean? Just a little more algebraic manipulation will show us the answer, which I will immediately render into prose:
+  We’ve just obtained a very simple requirement for the dissimilarity criterion to hold: \(n_\text{useful} < n_\text{lie}\). What does this requirement really mean though? And when is it met?
+</p>
+<p>
+  Expand this requirement algebraically, and then I promise I’ll explain it in prose.
   $$
   \begin{align}
   \Big( n_\text{useful} &< n_\text{lie} \Big)
@@ -342,50 +345,78 @@ What matters here is not the individual numbers, or an individual point along on
   \Bigg)
   \\
   \frac{
-    p(\text{says H } | \text{ H, H helps})
+    p(\text{says H } | \text{ H, H is helpful})
   }{
-    p(\text{says H } | \text{ H, H doesn’t help})
+    p(\text{says H } | \text{ H, H unhelpful})
   }
   &<
   \frac{
-    p(\text{says H } | \text{ not H, H helps})
+    p(\text{says H } | \text{ not H, H is helpful})
   }{
-    p(\text{says H } | \text{ not H, H doesn’t help})
-  }
+    p(\text{says H } | \text{ not H, H unhelpful})
+  }.
   \end{align}
   $$
+  Now in words: the criterion of dissimilarity is applicable when
+  <ul>
+    <li>
+      a <em>helpful</em> true event is closer in probability to an <em>unhelpful</em> true event than
+    </li>
+    <li>
+      a <em>helpful</em> fabrication to an <em>unhelpful</em> fabrication.
+    </li>
+  </ul>
+  Now by way of example: imagine for a given H we’ve
+  <ul>
+    <li>
+       selected numbers for
+       <ul>
+         <li>
+           \(p_\text{useful} = p(\text{says H } | \text{ H, H is helpful})\) and
+         </li>
+         <li>
+           \(p_\text{lie} = p(\text{says H } | \text{ not H, H is helpful})\),
+         </li>
+       </ul>
+    </li>
+    <li>
+      and we want to pick reasonable numbers for
+      <ul>
+        <li>
+          \(p_\text{useful}' = p(\text{says H } | \text{ H, H unhelpful})\) and
+        </li>
+        <li>
+          \(p_\text{lie}' = p(\text{says H } | \text{ not H, H unhelpful})\).
+        </li>
+      </ul>
+    </li>
+  </ul>
+  The probability of an unhelpful truth getting recorded, \(p_{useful}'\), will be smaller than a helpful truth’s probability of getting recorded \(p_{useful}\). But how much smaller? Perhaps we can say it won’t be very much smaller, say \(p_{useful} / p_{useful}' = 10\), because after all, writers through the ages are prone to recording truths because they find them interesting and not because they further their agenda—“unhelpful” in our model. (Titus Livy remarked on this, at the beginning of the Christian Era, when recounting a then-four-hundred-year-old combat between Titus Manlius Torquatus and a Gaulish giant who “in his stupid glee thrust his tongue out in derision—for the ancients have thought even this worth mentioning”. This was of course the fight in which the young tribune got that agnomen “Torquatus”. From <a href="http://www.perseus.tufts.edu/hopper/text?doc=Liv.%207.10.5"><cite>The History of Rome</cite></a>, translated by Benjamin Oliver Foster, book 7, chapter 10, though Torquatus’ story begins at chapter 4 of that book.)
+</p>
+<p>
+  Similarly, the probability of an unhelpful <em>fabrication</em> getting recorded, \(p_{lie}'\), is less than the probability of a helpful fabrication, \(p_{lie}\)—again, “helpful” here means “helps the author further their agenda” and is a quantification of the legitimacy of an ad hominem attack. But perhaps, unlike the case of \(p_{useful}'\) above, we can say it is <em>very</em> unlikely that an unhelpful fabrication is recorded, compared to the probability of a helpful one, e.g., \(p_{lie} / p_{lie}' = 100\)?, because why would a historical writer make something up if it didn’t further their cause, unless they were an inveterate Marco Polo (or rather, Rustichello of Pisa)?
 </p>
 
+<p>
+  So. <strong>If</strong> this relationship holds, where
+  <ul>
+    <li>
+      a <em>helpful</em> true event is closer in probability to an <em>unhelpful</em> true event than
+    </li>
+    <li>
+      a <em>helpful</em> fabrication is to an <em>unhelpful</em> one,
+    </li>
+  </ul>
+  then the criterion of dissimilarity is valid, and encourages us to discount events that help an author further their agenda.
+</p>
 
+<h2>Epilogue</h2>
+<p>
+  Conditional probability is <em>really</em> tricky. By law, professors are required to lecture on (or assign) the Monty Hall problem to their probability classes—the same problem that Paul Erdős, the prodigious traveling mathematician, who died twenty years ago on this day <a href="https://people.math.osu.edu/nevai.1/AT/ERDOS/erdos_washington_post.html">[osu.edu]</a>, got wrong but insisted otherwise, until they showed him proof by Monte Carlo <a href="http://www.mwsug.org/proceedings/2010/stats/MWSUG-2010-87.pdf">[mwsug.org]</a>, although in his defense, most mathematicians who haven’t heard of the puzzler get it wrong too <a href="https://www.wired.com/2014/11/monty-hall-erdos-limited-minds/">[wired.com]</a>.
+</p>
 
-<script>
-function linspace(a, b, num) {
-  const δ = (b - a) / (num - 1);
-  return Array.from(Array(num), (_, i) => a + δ * i);
-}
+<p>
+  (For fun, an implementation of Monty Hall’s game is included in the source of this webpage: if a thousand players use the “switch” strategy, <span id="monty-hall-switchers">66.1</span>% of them win the car 🚗. If ten thousand players use the “stay” strategy, only <span id="monty-hall-stayers">34.1</span>% win the car 🚗. <button onclick="monteCarlo();" ontouchstart="monteCarlo();">Click to recalculate.</button>)
+</p>
 
-pLie = [0, .1, .25, .5, 1];
-pPlaus = linspace(0, 1, 51);
-
-function makeTrace(pUseful, pLie, pPlausVec) {
-  return {
-    x : pPlausVec.slice(),
-    y : pPlausVec.map(pp => (pUseful * pp) / (pUseful * pp + pLie * (1 - pp))),
-    type: 'scatter',
-    name: `pLie=${pLie}`
-  };
-}
-function pUsefulToData(pUseful) {
-  return pLie.map(pLie => makeTrace(pUseful, pLie, pPlaus));
-}
-
-let layout = {
-  title : `pUseful = 1`,
-  xaxis : {title : 'pPlausible'},
-  yaxis : {title : 'p(H | says H)'}
-};
-
-Plotly.newPlot('myDiv', pUsefulToData(1), layout);
-Plotly.newPlot('myDiv-2', pUsefulToData(.5), (layout.title = 'pUseful = 0.5') && layout);
-Plotly.newPlot('myDiv-3', pUsefulToData(.1), (layout.title = 'pUseful = 0.1') && layout);
-</script>
+<script src="dissim.compat.js" async></script>
