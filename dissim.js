@@ -10,7 +10,9 @@ function mean(arr) {
   }
   return sum / arr.length;
 }
+
 function sample(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
 function montyHall(stay) {
   const numDoors = 3;
   const car = Math.floor(numDoors * Math.random());

@@ -33,9 +33,11 @@ function mean(arr) {
 
   return sum / arr.length;
 }
+
 function sample(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
+
 function montyHall(stay) {
   var numDoors = 3;
   var car = Math.floor(numDoors * Math.random());
